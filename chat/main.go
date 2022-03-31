@@ -15,6 +15,13 @@ import (
 	"github.com/stretchr/objx"
 )
 
+// set the active Avatar implementation
+var avatars Avatar = TryAvatars{
+	UseFileSystemAvatar,
+	UseAuthAvatar,
+	UseGravatar,
+}
+
 type templateHandler struct {
 	once     sync.Once
 	filename string
@@ -49,9 +56,7 @@ func main() {
 		log.Println("Could not create ./avatars directory")
 		return
 	}
-	// r := newRoom(UseAuthAvatar)
-	// r := newRoom(UseGravatar)
-	r := newRoom(UseFileSystemAvatar)
+	r := newRoom()
 	r.tracer = trace.New(os.Stdout)
 	http.Handle("/", MustAuth(&templateHandler{filename: "chat.html"}))
 	http.Handle("/chat", MustAuth(&templateHandler{filename: "chat.html"}))
