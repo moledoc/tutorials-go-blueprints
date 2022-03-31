@@ -44,6 +44,11 @@ func main() {
 		// TODO: facebook.New(os.Getenv("AUTH_ID"), os.Getenv("AUTH_KEY"), "http://localhost:8080/auth/callback/facebook"),
 		// TODO: github.New(os.Getenv("AUTH_ID"), os.Getenv("AUTH_KEY"), "http://localhost:8080/auth/callback/github"),
 	)
+	err := os.MkdirAll("./avatars", os.ModePerm)
+	if err != nil {
+		log.Println("Could not create ./avatars directory")
+		return
+	}
 	// r := newRoom(UseAuthAvatar)
 	// r := newRoom(UseGravatar)
 	r := newRoom(UseFileSystemAvatar)
