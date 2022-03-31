@@ -44,7 +44,7 @@ func main() {
 		// TODO: facebook.New(os.Getenv("AUTH_ID"), os.Getenv("AUTH_KEY"), "http://localhost:8080/auth/callback/facebook"),
 		// TODO: github.New(os.Getenv("AUTH_ID"), os.Getenv("AUTH_KEY"), "http://localhost:8080/auth/callback/github"),
 	)
-	r := newRoom()
+	r := newRoom(UseAuthAvatar)
 	r.tracer = trace.New(os.Stdout)
 	http.Handle("/", MustAuth(&templateHandler{filename: "chat.html"}))
 	http.Handle("/chat", MustAuth(&templateHandler{filename: "chat.html"}))
