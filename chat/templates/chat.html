@@ -39,7 +39,9 @@
 						socket.onmessage = function(e) {
 							var msg = JSON.parse(e.data);
 							messages.append(
-								$("<li>").append(
+								$("<p>").append(
+									$("<i>").text("("),
+									$("<i>").text(msg.WhenStr + ") "), 
 									$("<strong>").text(msg.Name + ": "), 
 									$("<span>").text(msg.Message)
 								)

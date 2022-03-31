@@ -22,6 +22,7 @@ func (c *client) read() {
 			return
 		}
 		msg.When = time.Now()
+		msg.WhenStr = msg.WhenString()
 		msg.Name = c.userData["name"].(string)
 		c.room.forward <- msg
 	}
