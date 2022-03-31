@@ -44,7 +44,9 @@ func main() {
 		// TODO: facebook.New(os.Getenv("AUTH_ID"), os.Getenv("AUTH_KEY"), "http://localhost:8080/auth/callback/facebook"),
 		// TODO: github.New(os.Getenv("AUTH_ID"), os.Getenv("AUTH_KEY"), "http://localhost:8080/auth/callback/github"),
 	)
-	r := newRoom(UseGravatar)
+	// r := newRoom(UseAuthAvatar)
+	// r := newRoom(UseGravatar)
+	r := newRoom(UseFileSystemAvatar)
 	r.tracer = trace.New(os.Stdout)
 	http.Handle("/", MustAuth(&templateHandler{filename: "chat.html"}))
 	http.Handle("/chat", MustAuth(&templateHandler{filename: "chat.html"}))
@@ -61,6 +63,9 @@ func main() {
 		w.Header().Set("Location", "/chat")
 		w.WriteHeader(http.StatusTemporaryRedirect)
 	})
+	http.Handle("/upload", &templateHandler{filename: "upload.html"})
+	http.HandleFunc("/uploader", uploaderHandler)
+	http.Handle("/avatars/", http.StripPrefix("/avatars/", http.FileServer(http.Dir("./avatars"))))
 	go r.run()
 	log.Printf("Serving %v\n", *addr)
 	if err := http.ListenAndServe(*addr, nil); err != nil {
